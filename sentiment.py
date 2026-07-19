@@ -2,7 +2,7 @@ from transformers import pipeline
 
 classifier = pipeline(
     "sentiment-analysis",
-    model="cardiffnlp/twitter-roberta-base-sentiment-latest"
+    model="distilbert-base-uncased-finetuned-sst-2-english"
 )
 
 def analyze_sentiment(text):
