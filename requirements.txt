@@ -1,0 +1,8 @@
+flask
+transformers
+torch
+pymongo
+python-dotenv
+pandas
+matplotlib
+plotly

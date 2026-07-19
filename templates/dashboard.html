@@ -1,0 +1,115 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5 fade-up">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold gradient-text">
+            <i class="bi bi-bar-chart-fill"></i>
+            Analytics Dashboard
+        </h1>
+        <p class="lead text-muted">
+            Visualize sentiment insights from your stored reviews.
+        </p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card total">
+            <i class="bi bi-chat-dots-fill"></i>
+            <h3>{{ total }}</h3>
+            <p>Total Reviews</p>
+        </div>
+
+        <div class="stat-card positive">
+            <i class="bi bi-emoji-smile-fill"></i>
+            <h3>{{ positive }}</h3>
+            <p>Positive</p>
+        </div>
+
+        <div class="stat-card neutral">
+            <i class="bi bi-emoji-neutral-fill"></i>
+            <h3>{{ neutral }}</h3>
+            <p>Neutral</p>
+        </div>
+
+        <div class="stat-card negative">
+            <i class="bi bi-emoji-frown-fill"></i>
+            <h3>{{ negative }}</h3>
+            <p>Negative</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+
+        <div class="col-lg-6">
+            <div class="dashboard-card h-100">
+                <h4 class="mb-3">
+                    <i class="bi bi-pie-chart-fill"></i>
+                    Sentiment Distribution
+                </h4>
+                {{ pie_chart|safe }}
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="dashboard-card h-100">
+                <h4 class="mb-3">
+                    <i class="bi bi-bar-chart-line-fill"></i>
+                    Sentiment Comparison
+                </h4>
+                {{ bar_chart|safe }}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="dashboard-card mt-4">
+        <h4 class="mb-4">
+            <i class="bi bi-clock-history"></i>
+            Recent Reviews
+        </h4>
+
+        {% if history %}
+
+            {% for item in history[:5] %}
+
+            <div class="d-flex justify-content-between align-items-start border-bottom py-3">
+
+                <div class="me-3">
+                    {% if item.sentiment=="Positive" %}
+                        <span class="sentiment-badge badge-positive">😊 Positive</span>
+                    {% elif item.sentiment=="Neutral" %}
+                        <span class="sentiment-badge badge-neutral">😐 Neutral</span>
+                    {% else %}
+                        <span class="sentiment-badge badge-negative">😞 Negative</span>
+                    {% endif %}
+
+                    <p class="mt-3 mb-1">{{ item.review }}</p>
+
+                    <small class="text-muted">
+                        <i class="bi bi-calendar3"></i>
+                        {{ item.date }}
+                    </small>
+                </div>
+
+                <strong>{{ item.confidence }}%</strong>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="empty-state">
+            <i class="bi bi-graph-up"></i>
+            <h4>No Analytics Yet</h4>
+            <p>Analyze a few reviews to populate your dashboard.</p>
+        </div>
+
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

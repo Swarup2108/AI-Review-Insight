@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block title %}Home | AI Review Insight{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+
+<div class="container container-lg">
+
+<div class="row align-items-center g-5">
+
+<!-- Left -->
+
+<div class="col-lg-6">
+
+<h1>
+
+AI Powered
+
+<span class="gradient-text">
+
+Sentiment Analysis
+
+</span>
+
+</h1>
+
+<p class="mt-4">
+
+Analyze customer reviews instantly using Hugging Face AI.
+
+Understand customer satisfaction with confidence scores,
+
+visual history and interactive analytics.
+
+</p>
+
+</div>
+
+<!-- Right -->
+
+<div class="col-lg-6">
+
+<div class="glass-card">
+
+<h3 class="mb-4">
+
+<i class="bi bi-chat-square-text"></i>
+
+Analyze Review
+
+</h3>
+
+<form method="POST">
+
+<div class="mb-3">
+
+<textarea
+
+class="form-control"
+
+rows="7"
+
+name="review"
+
+placeholder="Type or paste a customer review here..."
+
+required>{{ review if review else '' }}</textarea>
+
+</div>
+
+<button class="btn-gradient">
+
+<i class="bi bi-stars"></i>
+
+Analyze Sentiment
+
+</button>
+
+</form>
+
+{% if prediction %}
+
+<div class="result-card">
+
+<div class="result-title">
+
+Prediction Result
+
+</div>
+
+<h3>
+
+{% if prediction=="Positive" %}
+
+<span class="sentiment-positive">
+
+😊 Positive
+
+</span>
+
+{% elif prediction=="Negative" %}
+
+<span class="sentiment-negative">
+
+😞 Negative
+
+</span>
+
+{% else %}
+
+<span class="sentiment-neutral">
+
+😐 Neutral
+
+</span>
+
+{% endif %}
+
+</h3>
+
+<p class="mt-3">
+
+Confidence
+
+<strong>
+
+{{ confidence }}%
+
+</strong>
+
+</p>
+
+<div class="progress">
+
+<div
+    class="progress-bar bg-success"
+    role="progressbar"
+    aria-valuenow="{{ confidence }}"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    style="width: {{ confidence | default(0) }}%;">
+</div>
+
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="features">
+
+<div class="container container-lg">
+
+<div class="row g-4">
+
+<div class="col-md-6 col-lg-3">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+
+<i class="bi bi-lightning-charge"></i>
+
+</div>
+
+<h5>Fast Analysis</h5>
+
+<p>
+
+Instant AI predictions within seconds.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-3">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+
+<i class="bi bi-emoji-smile"></i>
+
+</div>
+
+<h5>High Accuracy</h5>
+
+<p>
+
+Powered by Hugging Face transformers.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-3">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+
+<i class="bi bi-database"></i>
+
+</div>
+
+<h5>MongoDB Storage</h5>
+
+<p>
+
+Automatically saves every review.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-3">
+
+<div class="feature-card">
+
+<div class="feature-icon">
+
+<i class="bi bi-bar-chart-line"></i>
+
+</div>
+
+<h5>Interactive Dashboard</h5>
+
+<p>
+
+Visualize sentiment trends easily.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,133 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5 fade-up">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold gradient-text">
+            <i class="bi bi-clock-history"></i>
+            Review History
+        </h1>
+        <p class="lead text-muted">
+            Browse every sentiment prediction stored in MongoDB.
+        </p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card total">
+            <i class="bi bi-chat-dots-fill"></i>
+            <h3>{{ total }}</h3>
+            <p>Total Reviews</p>
+        </div>
+
+        <div class="stat-card positive">
+            <i class="bi bi-emoji-smile-fill"></i>
+            <h3>{{ positive }}</h3>
+            <p>Positive</p>
+        </div>
+
+        <div class="stat-card neutral">
+            <i class="bi bi-emoji-neutral-fill"></i>
+            <h3>{{ neutral }}</h3>
+            <p>Neutral</p>
+        </div>
+
+        <div class="stat-card negative">
+            <i class="bi bi-emoji-frown-fill"></i>
+            <h3>{{ negative }}</h3>
+            <p>Negative</p>
+        </div>
+    </div>
+
+    <div class="search-container mb-4">
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" id="searchInput"
+                   placeholder="Search reviews..."
+                   onkeyup="searchCards()">
+        </div>
+    </div>
+
+    {% if history %}
+
+        {% for item in history %}
+
+        <div class="review-card review-item">
+
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+
+                <div>
+
+                    {% if item.sentiment=="Positive" %}
+                    <span class="sentiment-badge badge-positive">
+                        😊 Positive
+                    </span>
+                    {% elif item.sentiment=="Neutral" %}
+                    <span class="sentiment-badge badge-neutral">
+                        😐 Neutral
+                    </span>
+                    {% else %}
+                    <span class="sentiment-badge badge-negative">
+                        😞 Negative
+                    </span>
+                    {% endif %}
+
+                </div>
+
+                <a href="{{ url_for('delete_review', id=item._id) }}"
+                   class="btn-delete"
+                   onclick="return confirm('Delete this review?')">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
+
+            </div>
+
+            <p class="fs-5 mt-4 mb-4 review-text">
+                {{ item.review }}
+            </p>
+
+            <div class="progress mb-2">
+                <div class="progress-bar bg-primary"
+                     role="progressbar"
+                     style="width: {{ item.confidence }}%;">
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <strong>{{ item.confidence }}%</strong>
+                <span class="text-muted">
+                    <i class="bi bi-calendar3"></i>
+                    {{ item.date }}
+                </span>
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+    <div class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <h3>No Reviews Yet</h3>
+        <p>Your analyzed reviews will appear here.</p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+<script>
+function searchCards(){
+    let filter=document.getElementById("searchInput").value.toUpperCase();
+    let cards=document.getElementsByClassName("review-item");
+
+    for(let i=0;i<cards.length;i++){
+        let txt=cards[i].innerText.toUpperCase();
+        cards[i].style.display=txt.indexOf(filter)>-1 ? "" : "none";
+    }
+}
+</script>
+
+{% endblock %}
