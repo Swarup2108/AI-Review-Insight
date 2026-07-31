@@ -1,8 +1,9 @@
 from transformers import pipeline
 
+# Lightweight model
 classifier = pipeline(
     "sentiment-analysis",
-    model="cardiffnlp/twitter-roberta-base-sentiment-latest"
+    model="distilbert-base-uncased-finetuned-sst-2-english"
 )
 
 def analyze_sentiment(text):
@@ -12,17 +13,12 @@ def analyze_sentiment(text):
     label = result["label"]
     score = round(result["score"] * 100, 2)
 
-    if label.lower() == "positive":
-        emoji = "😊"
+    if label == "POSITIVE":
         sentiment = "Positive"
-
-    elif label.lower() == "neutral":
-        emoji = "😐"
-        sentiment = "Neutral"
-
+        emoji = "😊"
     else:
-        emoji = "😞"
         sentiment = "Negative"
+        emoji = "😞"
 
     return {
         "emoji": emoji,
